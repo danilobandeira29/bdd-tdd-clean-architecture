@@ -86,6 +86,14 @@ describe('Local save purchase', () => {
 
     expect(cacheRepository.deleteCallsCount).toBe(0)
   })
+
+  test('should delete old cache when save a new cache', () => {
+    const cacheRepository = new CacheRepository()
+    new LocalSavePurchase(cacheRepository)
+
+    expect(cacheRepository.deleteCallsCount).toBe(1)
+    expect(cacheRepository.saveCallsCount).toBe(1)
+  })
 })
 
 ```
