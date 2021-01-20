@@ -15,10 +15,31 @@ Esse projeto independe de framework, então a ideia é aprender sobre boas prát
 ## Configurando o projeto
 - Não devo começar instalando várias dependências ou criar um monte de páginas se eu não irei utilizar imediatamente, **YAGN - You ain't gonna need it**.
 - Iniciar o npm e instalar o typescript, logo em seguida utilizar o tsc --init para iniciar as configurações do typescript
+```bash
+npm install -D typescript @types/node
+```
 - Habilitar *baseUrl*, *rootDir* e *paths*
 - Sendo o *paths*
 ```json
 "paths": {
   "@/*": ["*"]
+}
+```
+- Instalar o jest
+```bash
+npm install -D jest @types/jest ts-jest
+```
+> ts-jest converte o código de typescript para javascript
+- Criar na raíz o `jest.config.js`
+```js
+module.exports = {
+  roots: ['<rootDir>/src'],
+  testEnvironment: 'node',
+  transform: {
+    '.*\\.ts$': 'ts-jest' // utilizar o ts-jest para converser o codigo typescript
+  },
+  moduleNameMapper: {
+    '@/(.*)': '<rootDir>/src/$1' //(.*) captura esse valor e colocar no $1
+  }
 }
 ```
