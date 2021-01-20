@@ -43,3 +43,8 @@ module.exports = {
   }
 }
 ```
+
+## Iniciando o projeto
+- Criar pasta src/domain/use-cases
+- Nessa pasta não irá implementação de nada, vai apenas **interfaces e modelos(entities)**
+- Criar a interface use case para salvar em cache
