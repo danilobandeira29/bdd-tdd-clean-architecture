@@ -4,7 +4,7 @@
   "description": "- Converso com meu cliente(pessoa que vai utilizar meu sistema) e escuto dela qual a versão dela do sistema\r - Conversa com o cliente para entender o pontos de vista dele\r - Anotar as opiniões dele e depois passar para um documento, onde irá descrever a narrativa e cenário\r - Fazer uso da `narrativa` e depois escreve os `cenários` baseados em cada narrativa",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --no-cache --watchAll"
   },
   "repository": {
     "type": "git",
