@@ -11,3 +11,14 @@ BDD é(given, when, then...):
 3. Então...
 
 Esse projeto independe de framework, então a ideia é aprender sobre boas práticas(clea architecture, tdd, bdd) para que seja uma aplicação escalável e de fácil manutenção, podendo também portar coisas para outras aplicações.
+
+## Configurando o projeto
+- Não devo começar instalando várias dependências ou criar um monte de páginas se eu não irei utilizar imediatamente, **YAGN - You ain't gonna need it**.
+- Iniciar o npm e instalar o typescript, logo em seguida utilizar o tsc --init para iniciar as configurações do typescript
+- Habilitar *baseUrl*, *rootDir* e *paths*
+- Sendo o *paths*
+```json
+"paths": {
+  "@/*": ["*"]
+}
+```
