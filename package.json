@@ -1,0 +1,24 @@
+{
+  "name": "bdd",
+  "version": "1.0.0",
+  "description": "- Converso com meu cliente(pessoa que vai utilizar meu sistema) e escuto dela qual a versão dela do sistema\r - Conversa com o cliente para entender o pontos de vista dele\r - Anotar as opiniões dele e depois passar para um documento, onde irá descrever a narrativa e cenário\r - Fazer uso da `narrativa` e depois escreve os `cenários` baseados em cada narrativa",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danilobandeira29/bdd-tdd-typescript.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danilobandeira29/bdd-tdd-typescript/issues"
+  },
+  "homepage": "https://github.com/danilobandeira29/bdd-tdd-typescript#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.22",
+    "typescript": "^4.1.3"
+  }
+}
