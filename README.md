@@ -48,3 +48,44 @@ module.exports = {
 - Criar pasta src/domain/use-cases
 - Nessa pasta não irá implementação de nada, vai apenas **interfaces e modelos(entities)**
 - Criar a interface use case para salvar em cache
+- Criar o primeiro teste
+```typescript
+describe('Local save purchase', () => {
+  test('', () => {
+    expect(1).toBe(1)
+  })
+})
+```
+- Criar um script de test
+```json
+"scripts": {
+  "test": "jest --no-cache --watchAll"
+}
+```
+
+## Criando primeiro teste
+- Devo entender que nos requisitos existe comportamentos misturados: regras de negócio e regras genéricas
+
+```typescript
+class LocalSavePurchase {
+  constructor(private readonly cacheRepository: CacheRepositoryInterface){}
+}
+
+class CacheRepository implements CacheRepositoryInterface {
+  deleteCallsCount = 0
+}
+
+interface CacheRepositoryInterface {
+
+}
+
+describe('Local save purchase', () => {
+  test('should not delete cache on init', () => {
+    const cacheRepository = new CacheRepository()
+    new LocalSavePurchase(cacheRepository)
+
+    expect(cacheRepository.deleteCallsCount).toBe(0)
+  })
+})
+
+```
