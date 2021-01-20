@@ -2,21 +2,44 @@ class LocalSavePurchase {
 
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
 
+  execute = async () => {
+    this.cacheRepository.delete()
+  }
+
 }
 
 interface CacheRepositoryInterface {
-
+  delete: () => void
 }
 
-class CacheRepository implements CacheRepositoryInterface {
+
+class FakeCacheRepository implements CacheRepositoryInterface {
   deleteCallsCount = 0
+  saveCallsCount = 1
+
+  delete = (): void => {
+    this.deleteCallsCount++
+  }
+
 }
+
+let fakeCacheRepository: FakeCacheRepository
+let localSavePurchase: LocalSavePurchase
 
 describe('LocalSavePurchase', () => {
-  test('should not delete cache on init', () => {
-    const cacheRepository = new CacheRepository()
-    new LocalSavePurchase(cacheRepository)
+  beforeEach(() => {
+    fakeCacheRepository = new FakeCacheRepository()
+    localSavePurchase = new LocalSavePurchase(fakeCacheRepository)
+    
+  })
 
-    expect(cacheRepository.deleteCallsCount).toBe(0)
+  test('should not delete cache on init', () => {
+    expect(fakeCacheRepository.deleteCallsCount).toBe(0)
+  })
+
+  test('should delete old cache when a new cache is saved', async () => {
+    await localSavePurchase.execute()
+    
+    expect(fakeCacheRepository.deleteCallsCount).toBe(1)
   })
 })
