@@ -64,7 +64,8 @@ describe('Local save purchase', () => {
 ```
 
 ## Criando primeiro teste
-- Devo entender que nos requisitos existe comportamentos misturados: regras de negócio e regras genéricas
+- Devo entender que nos requisitos existe comportamentos misturados: regras de negócio(deletar caches de 3 dias atras) e regras genéricas(delete, save, load)
+- Ou seja, com regras genéricas eu devo utilizar um helper ou repository para auxiliar o service para que ele ocorra da maneira correta. 
 
 ```typescript
 class LocalSavePurchase {
@@ -124,3 +125,14 @@ describe('LocalSavePurchase', () => {
 ```
 
 - Com o teste `should call delete with correct key` eu posso retirar o teste `should delete old cache when a new cache is saved`? **NÃO!!**, pois eu posso ter em produção a chamada do método delete acontecendo 2 vezes, ou seja, não é um comportamento correto, por isso a contagem da quantidade de vezes que o método delete foi chamado é importante
+
+## TDD
+3 leis do TDD:
+1. Você não pode escrever nenhum código de produção sem ter escrito um teste que detecte uma possível falha
+2. Você não pode escrever mais testes de unidade do que o suficiente para detectar a falha
+3. Você não pode escrever mais código do que o suficiente para passar nos testes
+
+Resumindo:
+- Irei criar o teste e ele irá falhar
+- Depois irei começar a criar a funcionalidade
+- Refatorar o código
