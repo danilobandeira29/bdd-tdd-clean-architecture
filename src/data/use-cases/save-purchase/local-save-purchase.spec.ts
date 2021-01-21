@@ -14,6 +14,11 @@ class FakeCacheRepository implements CacheRepositoryInterface {
     this.methodCallOrder.push(CacheRepositoryInterface.Methods.save)
     this.insertValue.push(value)
   }
+
+  replace = (key: string, value: any): void => {
+    this.delete(key)
+    this.save(key, value)
+  }
 }
 
 let fakeCacheRepository: FakeCacheRepository
