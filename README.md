@@ -141,3 +141,12 @@ describe('LocalSavePurchase', () => {
 ## Services e Testes
 - O `LocalSavePurchase` é apenas um service fake que implementa a use-case do Domain `SavePurchase`
 - **Não** posso tipar o *value* recebido no `CacheRepositoryInterface`, pois ele é um componente genérico e não deve servir a apenas um use case/service, já que ele pode ser utilizado em mais de um
+- Caso eu não espere uma função assíncrona executar, ela irá me retornar uma `Promise`, mesmo sendo `void`
+```js
+async function testFunction() {
+  return 'Hello, world'
+}
+
+const result = await testFunction() // retorna 'Hello, world'
+const promise = testFunction() // Promise {<fulfilled>: "Hello, world!"}
+```
