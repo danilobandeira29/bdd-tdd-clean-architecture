@@ -1,5 +1,5 @@
 import { Purchase } from '@/domain/entities'
 
 export interface LoadPurchaseUseCaseInterface {
-  execute: () => Promise<Array<Purchase>>
+  execute: () => Promise<Array<Purchase> | void>
 }
