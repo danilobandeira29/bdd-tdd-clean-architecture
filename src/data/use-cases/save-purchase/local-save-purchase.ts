@@ -5,7 +5,7 @@ export class LocalSavePurchase implements SavePurchase {
 
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
 
-  execute = async (purchases: Array<PurchaseEntity>) => {
+  execute = async (purchases: Array<PurchaseEntity>): Promise<void> => {
     this.cacheRepository.delete('purchaseKey')
     this.cacheRepository.save('newPurchaseKey', purchases)
   }
