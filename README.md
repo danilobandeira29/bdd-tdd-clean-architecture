@@ -12,6 +12,17 @@ BDD é(given, when, then...):
 
 Esse projeto independe de framework, então a ideia é aprender sobre boas práticas(clea architecture, tdd, bdd) para que seja uma aplicação escalável e de fácil manutenção, podendo também portar coisas para outras aplicações.
 
+# TDD
+3 leis do TDD:
+1. Você não pode escrever nenhum código de produção sem ter escrito um teste que detecte uma possível falha
+2. Você não pode escrever mais testes de unidade do que o suficiente para detectar a falha
+3. Você não pode escrever mais código do que o suficiente para passar nos testes
+
+Resumindo:
+- Irei criar o teste e ele irá falhar
+- Depois irei começar a criar a funcionalidade
+- Refatorar o código
+
 ## Configurando o projeto
 - Não devo começar instalando várias dependências ou criar um monte de páginas se eu não irei utilizar imediatamente, **YAGN - You ain't gonna need it**.
 - Iniciar o npm e instalar o typescript, logo em seguida utilizar o tsc --init para iniciar as configurações do typescript
@@ -120,19 +131,13 @@ describe('LocalSavePurchase', () => {
     expect(fakeCacheRepository.key).toBe('purchaseKey')
   })
   // posso reduzir os dois testes acima para apenas um
+  // se executar uma função assíncrona sem o await ele retorna uma promise
 })
 
 ```
 
 - Com o teste `should call delete with correct key` eu posso retirar o teste `should delete old cache when a new cache is saved`? **NÃO!!**, pois eu posso ter em produção a chamada do método delete acontecendo 2 vezes, ou seja, não é um comportamento correto, por isso a contagem da quantidade de vezes que o método delete foi chamado é importante
 
-## TDD
-3 leis do TDD:
-1. Você não pode escrever nenhum código de produção sem ter escrito um teste que detecte uma possível falha
-2. Você não pode escrever mais testes de unidade do que o suficiente para detectar a falha
-3. Você não pode escrever mais código do que o suficiente para passar nos testes
-
-Resumindo:
-- Irei criar o teste e ele irá falhar
-- Depois irei começar a criar a funcionalidade
-- Refatorar o código
+## Services e Testes
+- O `LocalSavePurchase` é apenas um service fake que implementa a use-case do Domain `SavePurchase`
+- **Não** posso tipar o *value* recebido no `CacheRepositoryInterface`, pois ele é um componente genérico e não deve servir a apenas um use case/service, já que ele pode ser utilizado em mais de um
