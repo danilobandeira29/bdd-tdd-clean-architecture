@@ -68,32 +68,59 @@ describe('Local save purchase', () => {
 
 ```typescript
 class LocalSavePurchase {
-  constructor(private readonly cacheRepository: CacheRepositoryInterface){}
-}
 
-class CacheRepository implements CacheRepositoryInterface {
-  deleteCallsCount = 0
+  constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
+
+  execute = async () => {
+    this.cacheRepository.delete('purchaseKey')
+  }
+
 }
 
 interface CacheRepositoryInterface {
+  delete: (key: string) => void
+}
+
+
+class FakeCacheRepository implements CacheRepositoryInterface {
+  deleteCallsCount = 0
+  key = ''
+
+  delete = (key: string): void => {
+    this.deleteCallsCount++
+    this.key = key
+  }
 
 }
 
-describe('Local save purchase', () => {
+let fakeCacheRepository: FakeCacheRepository
+let localSavePurchase: LocalSavePurchase
+
+describe('LocalSavePurchase', () => {
+  beforeEach(() => {
+    fakeCacheRepository = new FakeCacheRepository()
+    localSavePurchase = new LocalSavePurchase(fakeCacheRepository)
+    
+  })
+
   test('should not delete cache on init', () => {
-    const cacheRepository = new CacheRepository()
-    new LocalSavePurchase(cacheRepository)
-
-    expect(cacheRepository.deleteCallsCount).toBe(0)
+    expect(fakeCacheRepository.deleteCallsCount).toBe(0)
   })
 
-  test('should delete old cache when save a new cache', () => {
-    const cacheRepository = new CacheRepository()
-    new LocalSavePurchase(cacheRepository)
-
-    expect(cacheRepository.deleteCallsCount).toBe(1)
-    expect(cacheRepository.saveCallsCount).toBe(1)
+  test('should delete old cache when a new cache is saved', async () => {
+    await localSavePurchase.execute()
+    
+    expect(fakeCacheRepository.deleteCallsCount).toBe(1)
   })
+
+  test('should call delete with correct key', async () => {
+    await localSavePurchase.execute()
+    
+    expect(fakeCacheRepository.key).toBe('purchaseKey')
+  })
+  // posso reduzir os dois testes acima para apenas um
 })
 
 ```
+
+- Com o teste `should call delete with correct key` eu posso retirar o teste `should delete old cache when a new cache is saved`? **NÃO!!**, pois eu posso ter em produção a chamada do método delete acontecendo 2 vezes, ou seja, não é um comportamento correto, por isso a contagem da quantidade de vezes que o método delete foi chamado é importante
