@@ -3,11 +3,17 @@ import { PurchaseEntity, SavePurchase } from '@/domain/use-cases'
 
 export class LocalSavePurchase implements SavePurchase {
 
-  constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
+  constructor(
+    private readonly cacheRepository: CacheRepositoryInterface,
+    private readonly timestamp: Date
+    ) {}
 
   execute = async (purchases: Array<PurchaseEntity>): Promise<void> => {
     this.cacheRepository.delete('purchaseKey')
-    this.cacheRepository.save('newPurchaseKey', purchases)
+    this.cacheRepository.save('newPurchaseKey', {
+      timestamp: this.timestamp,
+      value: purchases
+    })
   }
 
 }
