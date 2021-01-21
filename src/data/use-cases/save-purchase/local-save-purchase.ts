@@ -6,6 +6,7 @@ export class LocalSavePurchase {
 
   execute = async () => {
     this.cacheRepository.delete('purchaseKey')
+    this.cacheRepository.save('newPurchaseKey')
   }
 
 }
