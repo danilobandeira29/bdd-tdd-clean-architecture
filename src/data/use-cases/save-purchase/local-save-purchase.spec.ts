@@ -1,19 +1,37 @@
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
 import { LocalSavePurchase } from '@/data/use-cases'
+import { PurchaseEntity } from '@/domain'
 
 class FakeCacheRepository implements CacheRepositoryInterface {
+  insertValue = []
 
   delete = (key: string): void => {}
-  save = (key: string): void => {}
+  save = (key: string, value: any): void => {
+    this.insertValue = value
+  }
 }
 
 let fakeCacheRepository: FakeCacheRepository
 let localSavePurchase: LocalSavePurchase
+let purchases: Array<PurchaseEntity>
 
 describe('LocalSavePurchase', () => {
   beforeEach(() => {
     fakeCacheRepository = new FakeCacheRepository()
     localSavePurchase = new LocalSavePurchase(fakeCacheRepository)
+
+    purchases = [
+      {
+        id: '1',
+        date: new Date(),
+        value: 44.4
+      },
+      {
+        id: '2',
+        date: new Date(),
+        value: 21
+      }
+    ]
   })
 
   test('should not delete cache on init', () => {
@@ -25,7 +43,7 @@ describe('LocalSavePurchase', () => {
   test('should delete old cache with key when a new cache is saved', async () => {
     const spyDeleteFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'delete')
    
-    await localSavePurchase.execute()
+    await localSavePurchase.execute(purchases)
     
     expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
     expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
@@ -36,7 +54,7 @@ describe('LocalSavePurchase', () => {
     .spyOn(fakeCacheRepository, 'delete')
     .mockImplementationOnce(() => { throw new Error() })
 
-    const promise = localSavePurchase.execute()
+    const promise = localSavePurchase.execute(purchases)
 
     expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
     expect(promise).rejects.toThrow()
@@ -46,11 +64,13 @@ describe('LocalSavePurchase', () => {
     const spyDeleteFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'delete')
     const spySaveOnFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'save')
 
-    await localSavePurchase.execute()
+    await localSavePurchase.execute(purchases)
 
     expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
     expect(spySaveOnFakeCacheRepository).toBeCalledTimes(1)
-    expect(spySaveOnFakeCacheRepository).toBeCalledWith('newPurchaseKey')
+    expect(spySaveOnFakeCacheRepository)
+      .toHaveBeenCalledWith('newPurchaseKey', purchases)
+    expect(fakeCacheRepository.insertValue).toEqual(purchases)
   })
 
 })
