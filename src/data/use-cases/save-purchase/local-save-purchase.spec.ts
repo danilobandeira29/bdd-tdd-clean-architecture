@@ -63,7 +63,7 @@ describe('LocalSavePurchase', () => {
   })
 
   test('should save a new cache if delete old cache succeeds', async () => {
-    await localSavePurchase.execute(purchases)
+    const promise = localSavePurchase.execute(purchases)
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
@@ -77,6 +77,7 @@ describe('LocalSavePurchase', () => {
       timestamp,
       value: purchases
     }])
+    await expect(promise).resolves.toBeFalsy()
   })
 
   test('should throw a error if save fails', async () => {
