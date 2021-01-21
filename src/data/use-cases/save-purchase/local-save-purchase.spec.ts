@@ -54,7 +54,7 @@ describe('LocalSavePurchase', () => {
     expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
   })
 
-  test('should not save a cache if delete old cache fails', () => {
+  test('should not save a cache if delete old cache fails', async () => {
     spyDeleteFromFakeCacheRepository
       .mockImplementationOnce(() => { 
         fakeCacheRepository.methodCallOrder.push(CacheRepositoryInterface.Methods.delete)
@@ -66,7 +66,7 @@ describe('LocalSavePurchase', () => {
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete])
-    expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
   })
 
   test('should save a new cache if delete old cache succeeds', async () => {
@@ -79,7 +79,7 @@ describe('LocalSavePurchase', () => {
     expect(fakeCacheRepository.insertValue).toContainEqual(purchases)
   })
 
-  test('should throw a error if save fails', () => {
+  test('should throw a error if save fails', async () => {
     spySaveFromFakeCacheRepository
       .mockImplementationOnce(() => { 
         fakeCacheRepository.methodCallOrder.push(CacheRepositoryInterface.Methods.save)
@@ -90,7 +90,7 @@ describe('LocalSavePurchase', () => {
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
-    expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
   })
 
 })
