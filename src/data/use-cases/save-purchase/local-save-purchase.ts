@@ -9,8 +9,7 @@ export class LocalSavePurchase implements SavePurchase {
     ) {}
 
   execute = async (purchases: Array<PurchaseEntity>): Promise<void> => {
-    this.cacheRepository.delete('purchaseKey')
-    this.cacheRepository.save('newPurchaseKey', {
+    this.cacheRepository.replace('newPurchaseKey', {
       timestamp: this.timestamp,
       value: purchases
     })
