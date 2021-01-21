@@ -1,5 +1,5 @@
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
-import { PurchaseEntity, SavePurchase } from '@/domain'
+import { PurchaseEntity, SavePurchase } from '@/domain/use-cases'
 
 export class LocalSavePurchase implements SavePurchase {
 
