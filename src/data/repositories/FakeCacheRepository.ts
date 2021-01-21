@@ -18,4 +18,8 @@ export class FakeCacheRepository implements CacheRepositoryInterface {
     this.delete(key)
     this.save(key, value)
   }
+
+  load = (key: string): void => {
+    this.methodCallOrder.push(CacheRepositoryInterface.Methods.load)
+  }
 }
