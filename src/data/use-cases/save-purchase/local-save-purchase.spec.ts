@@ -21,11 +21,12 @@ let localSavePurchase: LocalSavePurchase
 let spyDeleteFromFakeCacheRepository: jest.SpyInstance
 let spySaveFromFakeCacheRepository: jest.SpyInstance
 let purchases: Array<PurchaseEntity>
+const timestamp = new Date()
 
 describe('LocalSavePurchase', () => {
   beforeEach(() => {
     fakeCacheRepository = new FakeCacheRepository()
-    localSavePurchase = new LocalSavePurchase(fakeCacheRepository)
+    localSavePurchase = new LocalSavePurchase(fakeCacheRepository, timestamp)
     spyDeleteFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'delete')
     spySaveFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'save')
     purchases = [
@@ -44,14 +45,6 @@ describe('LocalSavePurchase', () => {
 
   test('should not delete cache on init', () => {
     expect(fakeCacheRepository.methodCallOrder).toEqual([])
-  })
-
-  test('should delete old cache with key when a new cache is saved', async () => {
-    await localSavePurchase.execute(purchases)
-    
-    expect(fakeCacheRepository.methodCallOrder)
-      .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
-    expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
   })
 
   test('should not save a cache if delete old cache fails', async () => {
@@ -75,8 +68,15 @@ describe('LocalSavePurchase', () => {
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
     expect(spySaveFromFakeCacheRepository)
-      .toHaveBeenCalledWith('newPurchaseKey', purchases)
-    expect(fakeCacheRepository.insertValue).toContainEqual(purchases)
+      .toHaveBeenCalledWith('newPurchaseKey',{
+        timestamp,
+        value: purchases
+      })
+    expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(fakeCacheRepository.insertValue).toEqual([{
+      timestamp,
+      value: purchases
+    }])
   })
 
   test('should throw a error if save fails', async () => {
