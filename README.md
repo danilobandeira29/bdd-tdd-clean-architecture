@@ -150,3 +150,4 @@ async function testFunction() {
 const result = await testFunction() // retorna 'Hello, world'
 const promise = testFunction() // Promise {<fulfilled>: "Hello, world!"}
 ```
+- Utilizei o `namespace` para criar uma variável/estrutura interna em uma interface(similar a criação de um atributo abstrato em Java) para criar um array enum que irá observar a ordem das contagens dos métodos delete e save, para saber se o delete é chamado antes do save.
