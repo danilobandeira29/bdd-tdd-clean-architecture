@@ -31,4 +31,15 @@ describe('LocalSavePurchase', () => {
     expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
   })
 
+  test('should not save a cache if delete old cache fail', async () => {
+    const spyDeleteFromFakeCacheRepository = jest
+    .spyOn(fakeCacheRepository, 'delete')
+    .mockImplementationOnce(() => { throw new Error() })
+
+    const promise = localSavePurchase.execute()
+
+    expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
+    expect(promise).rejects.toThrow()
+  })
+
 })
