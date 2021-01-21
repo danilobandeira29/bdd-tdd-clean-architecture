@@ -68,4 +68,14 @@ describe('LocalSavePurchase', () => {
     expect(fakeCacheRepository.insertValue).toEqual(purchases)
   })
 
+  test('should throw a error if save fails', () => {
+    spySaveFromFakeCacheRepository
+      .mockImplementationOnce(() => { throw new Error() })
+
+    const promise = localSavePurchase.execute(purchases)
+
+    expect(spySaveFromFakeCacheRepository).toBeCalledTimes(1)
+    expect(promise).rejects.toThrow()
+  })
+
 })
