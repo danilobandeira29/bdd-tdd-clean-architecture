@@ -141,7 +141,8 @@ describe('LocalSavePurchase', () => {
 ## Services e Testes
 - O `LocalSavePurchase` é apenas um service fake que implementa a use-case do Domain `SavePurchase`
 - **Não** posso tipar o *value* recebido no `CacheRepositoryInterface`, pois ele é um componente genérico e não deve servir a apenas um use case/service, já que ele pode ser utilizado em mais de um
-- Caso eu não espere uma função assíncrona executar, ela irá me retornar uma `Promise`, mesmo sendo `void`
+- Caso eu não espere uma função assíncrona executar, ela irá me retornar uma `Promise`, mesmo sendo `void`. Então eu consigo observar se ela irá ser chamada pelo *resolve* ou *reject*.
+
 ```js
 async function testFunction() {
   return 'Hello, world'
@@ -151,3 +152,4 @@ const result = await testFunction() // retorna 'Hello, world'
 const promise = testFunction() // Promise {<fulfilled>: "Hello, world!"}
 ```
 - Utilizei o `namespace` para criar uma variável/estrutura interna em uma interface(similar a criação de um atributo abstrato em Java) para criar um array enum que irá observar a ordem das contagens dos métodos delete e save, para saber se o delete é chamado antes do save.
+- Posso abstrair e criar um novo método no `CacheRepositoryInterface` que será o replace, que nada mais é do que a chamada dos métodos `delete` e `save`.
