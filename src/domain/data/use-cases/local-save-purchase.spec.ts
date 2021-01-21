@@ -3,22 +3,23 @@ class LocalSavePurchase {
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
 
   execute = async () => {
-    this.cacheRepository.delete()
+    this.cacheRepository.delete('purchaseKey')
   }
 
 }
 
 interface CacheRepositoryInterface {
-  delete: () => void
+  delete: (key: string) => void
 }
 
 
 class FakeCacheRepository implements CacheRepositoryInterface {
   deleteCallsCount = 0
-  saveCallsCount = 1
+  key = ''
 
-  delete = (): void => {
+  delete = (key: string): void => {
     this.deleteCallsCount++
+    this.key = key
   }
 
 }
@@ -41,5 +42,11 @@ describe('LocalSavePurchase', () => {
     await localSavePurchase.execute()
     
     expect(fakeCacheRepository.deleteCallsCount).toBe(1)
+  })
+
+  test('should call delete with correct key', async () => {
+    await localSavePurchase.execute()
+    
+    expect(fakeCacheRepository.key).toBe('purchaseKey')
   })
 })
