@@ -4,7 +4,7 @@ import { LocalSavePurchase } from '@/data/use-cases'
 class FakeCacheRepository implements CacheRepositoryInterface {
 
   delete = (key: string): void => {}
-
+  save = (key: string): void => {}
 }
 
 let fakeCacheRepository: FakeCacheRepository
@@ -31,7 +31,7 @@ describe('LocalSavePurchase', () => {
     expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
   })
 
-  test('should not save a cache if delete old cache fail', async () => {
+  test('should not save a cache if delete old cache fails', () => {
     const spyDeleteFromFakeCacheRepository = jest
     .spyOn(fakeCacheRepository, 'delete')
     .mockImplementationOnce(() => { throw new Error() })
@@ -40,6 +40,17 @@ describe('LocalSavePurchase', () => {
 
     expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
     expect(promise).rejects.toThrow()
+  })
+
+  test('should save a new cache if delete old cache succeeds', async () => {
+    const spyDeleteFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'delete')
+    const spySaveOnFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'save')
+
+    await localSavePurchase.execute()
+
+    expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
+    expect(spySaveOnFakeCacheRepository).toBeCalledTimes(1)
+    expect(spySaveOnFakeCacheRepository).toBeCalledWith('newPurchaseKey')
   })
 
 })
