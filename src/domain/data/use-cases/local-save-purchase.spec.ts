@@ -42,11 +42,7 @@ describe('LocalSavePurchase', () => {
     await localSavePurchase.execute()
     
     expect(fakeCacheRepository.deleteCallsCount).toBe(1)
-  })
-
-  test('should call delete with correct key', async () => {
-    await localSavePurchase.execute()
-    
     expect(fakeCacheRepository.key).toBe('purchaseKey')
   })
+
 })
