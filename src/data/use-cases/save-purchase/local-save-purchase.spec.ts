@@ -3,11 +3,11 @@ import { LocalSavePurchase } from '@/data/use-cases'
 import { PurchaseEntity } from '@/domain'
 
 class FakeCacheRepository implements CacheRepositoryInterface {
-  insertValue = []
+  insertValue: Array<PurchaseEntity> = []
 
   delete = (key: string): void => {}
   save = (key: string, value: any): void => {
-    this.insertValue = value
+    this.insertValue.push(value)
   }
 }
 
@@ -54,7 +54,6 @@ describe('LocalSavePurchase', () => {
 
     const promise = localSavePurchase.execute(purchases)
 
-    expect(spyDeleteFromFakeCacheRepository).toBeCalledTimes(1)
     expect(promise).rejects.toThrow()
   })
 
@@ -65,7 +64,7 @@ describe('LocalSavePurchase', () => {
     expect(spySaveFromFakeCacheRepository).toBeCalledTimes(1)
     expect(spySaveFromFakeCacheRepository)
       .toHaveBeenCalledWith('newPurchaseKey', purchases)
-    expect(fakeCacheRepository.insertValue).toEqual(purchases)
+    expect(fakeCacheRepository.insertValue).toContainEqual(purchases)
   })
 
   test('should throw a error if save fails', () => {
@@ -74,7 +73,6 @@ describe('LocalSavePurchase', () => {
 
     const promise = localSavePurchase.execute(purchases)
 
-    expect(spySaveFromFakeCacheRepository).toBeCalledTimes(1)
     expect(promise).rejects.toThrow()
   })
 
