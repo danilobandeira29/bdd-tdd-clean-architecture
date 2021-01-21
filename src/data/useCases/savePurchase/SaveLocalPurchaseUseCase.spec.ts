@@ -1,37 +1,20 @@
+import { Purchase } from '@/domain/entities'
+import { SaveLocalPurchaseUseCase } from '@/data/useCases'
+import { FakeCacheRepository } from '@/data/repositories'
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
-import { LocalSavePurchase } from '@/data/use-cases'
-import { PurchaseEntity } from '@/domain/use-cases'
 
-class FakeCacheRepository implements CacheRepositoryInterface {
-  insertValue: Array<PurchaseEntity> = []
-  methodCallOrder: Array<CacheRepositoryInterface.Methods> = []
-
-  delete = (key: string): void => {
-    this.methodCallOrder.push(CacheRepositoryInterface.Methods.delete)
-  }
-
-  save = (key: string, value: any): void => {
-    this.methodCallOrder.push(CacheRepositoryInterface.Methods.save)
-    this.insertValue.push(value)
-  }
-
-  replace = (key: string, value: any): void => {
-    this.delete(key)
-    this.save(key, value)
-  }
-}
 
 let fakeCacheRepository: FakeCacheRepository
-let localSavePurchase: LocalSavePurchase
+let saveLocalPurchaseUseCase: SaveLocalPurchaseUseCase
 let spyDeleteFromFakeCacheRepository: jest.SpyInstance
 let spySaveFromFakeCacheRepository: jest.SpyInstance
-let purchases: Array<PurchaseEntity>
+let purchases: Array<Purchase>
 const timestamp = new Date()
 
-describe('LocalSavePurchase', () => {
+describe('SaveLocalPurchase', () => {
   beforeEach(() => {
     fakeCacheRepository = new FakeCacheRepository()
-    localSavePurchase = new LocalSavePurchase(fakeCacheRepository, timestamp)
+    saveLocalPurchaseUseCase = new SaveLocalPurchaseUseCase(fakeCacheRepository, timestamp)
     spyDeleteFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'delete')
     spySaveFromFakeCacheRepository = jest.spyOn(fakeCacheRepository, 'save')
     purchases = [
@@ -60,7 +43,7 @@ describe('LocalSavePurchase', () => {
         throw new Error() 
       })
 
-    const promise = localSavePurchase.execute(purchases)
+    const promise = saveLocalPurchaseUseCase.execute(purchases)
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete])
@@ -68,12 +51,12 @@ describe('LocalSavePurchase', () => {
   })
 
   test('should save a new cache if delete old cache succeeds', async () => {
-    const promise = localSavePurchase.execute(purchases)
+    const promise = saveLocalPurchaseUseCase.execute(purchases)
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
     expect(spySaveFromFakeCacheRepository)
-      .toHaveBeenCalledWith('newPurchaseKey',{
+      .toHaveBeenCalledWith('purchaseKey',{
         timestamp,
         value: purchases
       })
@@ -92,7 +75,7 @@ describe('LocalSavePurchase', () => {
         throw new Error() 
       })
 
-    const promise = localSavePurchase.execute(purchases)
+    const promise = saveLocalPurchaseUseCase.execute(purchases)
 
     expect(fakeCacheRepository.methodCallOrder)
     .toEqual([CacheRepositoryInterface.Methods.delete, CacheRepositoryInterface.Methods.save])
