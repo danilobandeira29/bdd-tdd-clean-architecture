@@ -1,17 +1,5 @@
-class LocalSavePurchase {
-
-  constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
-
-  execute = async () => {
-    this.cacheRepository.delete('purchaseKey')
-  }
-
-}
-
-interface CacheRepositoryInterface {
-  delete: (key: string) => void
-}
-
+import { CacheRepositoryInterface } from '@/data/interfaces/cache'
+import { LocalSavePurchase } from '@/data/use-cases'
 
 class FakeCacheRepository implements CacheRepositoryInterface {
   deleteCallsCount = 0
