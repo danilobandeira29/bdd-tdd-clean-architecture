@@ -153,3 +153,4 @@ const promise = testFunction() // Promise {<fulfilled>: "Hello, world!"}
 ```
 - Utilizei o `namespace` para criar uma variável/estrutura interna em uma interface(similar a criação de um atributo abstrato em Java) para criar um array enum que irá observar a ordem das contagens dos métodos delete e save, para saber se o delete é chamado antes do save.
 - Posso abstrair e criar um novo método no `CacheRepositoryInterface` que será o replace, que nada mais é do que a chamada dos métodos `delete` e `save`.
+- Evitar utilizar currying, pois achei bastante confuso quando utilizado em projetos grandes
