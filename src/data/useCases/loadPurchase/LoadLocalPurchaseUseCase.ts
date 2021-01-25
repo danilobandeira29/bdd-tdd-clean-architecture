@@ -5,9 +5,10 @@ import { LoadPurchaseUseCaseInterface } from '@/domain/useCases'
 export class LoadLocalPurchaseUseCase implements LoadPurchaseUseCaseInterface {
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
   
-  execute = async(): Promise<Array<Purchase> | void> => {
+  execute = async(): Promise<any | void> => {
     try {
-      this.cacheRepository.load('purchaseKey')
+      const { purchases } = this.cacheRepository.load('purchaseKey')
+      return purchases
     } catch(error) {
       this.cacheRepository.delete('purchaseKey')
       return []
