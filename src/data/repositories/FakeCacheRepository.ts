@@ -8,7 +8,7 @@ export interface ResultValue {
 
 export class FakeCacheRepository implements CacheRepositoryInterface {
   insertValue: Array<Purchase> = []
-  resultValue: ResultValue = {} as ResultValue
+  resultValue: any
   methodCallOrder: Array<CacheRepositoryInterface.Methods> = []
 
   delete = (key: string): void => {
