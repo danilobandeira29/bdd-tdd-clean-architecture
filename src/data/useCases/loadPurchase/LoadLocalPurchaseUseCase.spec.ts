@@ -10,7 +10,7 @@ let spyDeleteFromFakeCacheRepository: jest.SpyInstance
 let purchases: Array<Purchase>
 let resultValue: ResultValue
 
-describe('SaveLocalPurchase', () => {
+describe('LoadLocalPurchase', () => {
   beforeEach(() => {
     fakeCacheRepository = new FakeCacheRepository()
     loadLocalPurchaseUseCase = new LoadLocalPurchaseUseCase(fakeCacheRepository)
@@ -53,6 +53,10 @@ describe('SaveLocalPurchase', () => {
   })
 
   test('should returns a list of purchases if cache is less than 3 days old', async () => {
+    const currentDate = new Date()
+    resultValue.timestamp.setDate(currentDate.getDate() - 3)
+    resultValue.timestamp.setSeconds(currentDate.getSeconds() + 1)
+
     fakeCacheRepository.resultValue = ({
       timestamp: resultValue.timestamp,
       purchases: resultValue.purchases
@@ -63,6 +67,23 @@ describe('SaveLocalPurchase', () => {
     expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
     expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load])
     expect(purchasesUseCase).toEqual(resultValue.purchases)
+  })
+
+  test('should returns a list empty list if cache is more than 3 days old', async () => {
+    const currentDate = new Date()
+    resultValue.timestamp.setDate(currentDate.getDate() - 3)
+    resultValue.timestamp.setSeconds(currentDate.getSeconds() - 1)
+
+    fakeCacheRepository.resultValue = ({
+      timestamp: resultValue.timestamp,
+      purchases: resultValue.purchases
+    })
+
+    const purchasesUseCase = await loadLocalPurchaseUseCase.execute()
+
+    expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load, CacheRepositoryInterface.Methods.delete])
+    expect(purchasesUseCase).toEqual([])
   })
 
 })
