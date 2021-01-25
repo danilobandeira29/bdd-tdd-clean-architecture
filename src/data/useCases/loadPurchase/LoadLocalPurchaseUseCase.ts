@@ -5,10 +5,20 @@ import { LoadPurchaseUseCaseInterface } from '@/domain/useCases'
 export class LoadLocalPurchaseUseCase implements LoadPurchaseUseCaseInterface {
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
   
-  execute = async(): Promise<any | void> => {
+  execute = async(): Promise<any> => {
     try {
-      const { purchases } = this.cacheRepository.load('purchaseKey')
-      return purchases
+      const { purchases, timestamp } = this.cacheRepository.load('purchaseKey')
+      const currentDate = new Date()
+      const maxRange = new Date(timestamp)
+
+      maxRange.setDate(timestamp.getDate() + 3)
+
+      if(maxRange > currentDate) {
+        return purchases
+      } else {
+        throw new Error()
+      }
+
     } catch(error) {
       this.cacheRepository.delete('purchaseKey')
       return []
