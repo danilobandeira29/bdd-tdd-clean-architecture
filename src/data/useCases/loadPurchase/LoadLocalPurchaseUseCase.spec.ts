@@ -102,4 +102,21 @@ describe('LoadLocalPurchase', () => {
     expect(purchasesUseCase).toEqual([])
   })
 
+  test('should returns an list empty list if cache is empty', async () => {
+    const currentDate = new Date()
+    resultValue.timestamp.setDate(currentDate.getDate() - 3)
+    resultValue.timestamp.setSeconds(currentDate.getSeconds() + 1)
+
+    fakeCacheRepository.resultValue = ({
+      timestamp: resultValue.timestamp,
+      purchases: []
+    })
+
+    const purchasesUseCase = await loadLocalPurchaseUseCase.execute()
+
+    expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load])
+    expect(purchasesUseCase).toEqual([])
+  })
+
 })
