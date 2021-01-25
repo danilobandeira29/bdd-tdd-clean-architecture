@@ -1,8 +1,14 @@
 import { Purchase } from '@/domain/entities'
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
 
+export interface ResultValue {
+  timestamp: Date
+  purchases: Array<Purchase>
+}
+
 export class FakeCacheRepository implements CacheRepositoryInterface {
   insertValue: Array<Purchase> = []
+  resultValue: ResultValue = {} as ResultValue
   methodCallOrder: Array<CacheRepositoryInterface.Methods> = []
 
   delete = (key: string): void => {
@@ -19,7 +25,8 @@ export class FakeCacheRepository implements CacheRepositoryInterface {
     this.save(key, value)
   }
 
-  load = (key: string): void => {
+  load = (key: string): any => {
     this.methodCallOrder.push(CacheRepositoryInterface.Methods.load)
+    return this.resultValue
   }
 }
