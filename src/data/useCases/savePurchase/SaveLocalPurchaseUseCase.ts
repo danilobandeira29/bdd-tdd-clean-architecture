@@ -6,12 +6,12 @@ export class SaveLocalPurchaseUseCase implements SavePurchaseUseCaseInterface {
 
   constructor(
     private readonly cacheRepository: CacheRepositoryInterface,
-    private readonly timestamp: Date
+    private readonly currentDate: Date
     ) {}
 
   execute = async (purchases: Array<Purchase>): Promise<void> => {
     this.cacheRepository.replace('purchaseKey', {
-      timestamp: this.timestamp,
+      timestamp: this.currentDate,
       value: purchases
     })
   }
