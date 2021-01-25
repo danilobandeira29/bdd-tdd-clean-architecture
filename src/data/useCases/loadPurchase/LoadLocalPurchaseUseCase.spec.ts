@@ -86,4 +86,20 @@ describe('LoadLocalPurchase', () => {
     expect(purchasesUseCase).toEqual([])
   })
 
+  test('should returns a list empty list if cache is 3 days old', async () => {
+    const currentDate = new Date()
+    resultValue.timestamp.setDate(currentDate.getDate() - 3)
+
+    fakeCacheRepository.resultValue = ({
+      timestamp: resultValue.timestamp,
+      purchases: resultValue.purchases
+    })
+
+    const purchasesUseCase = await loadLocalPurchaseUseCase.execute()
+
+    expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load, CacheRepositoryInterface.Methods.delete])
+    expect(purchasesUseCase).toEqual([])
+  })
+
 })
