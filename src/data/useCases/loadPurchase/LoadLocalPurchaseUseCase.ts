@@ -6,7 +6,12 @@ export class LoadLocalPurchaseUseCase implements LoadPurchaseUseCaseInterface {
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
   
   execute = async(): Promise<Array<Purchase> | void> => {
-    this.cacheRepository.load('purchaseKey')
+    try {
+      this.cacheRepository.load('purchaseKey')
+    } catch(error) {
+      this.cacheRepository.delete('purchaseKey')
+      return []
+    }
   }
 
 }
