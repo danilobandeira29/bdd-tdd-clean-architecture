@@ -2,6 +2,7 @@ import { LoadLocalPurchaseUseCase } from '@/data/useCases'
 import { FakeCacheRepository, ResultValue } from '@/data/repositories'
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
 import { Purchase } from '@/domain/entities'
+import { getCacheExpirationDate } from '@/data/helpers'
 
 let fakeCacheRepository: FakeCacheRepository
 let loadLocalPurchaseUseCase: LoadLocalPurchaseUseCase
@@ -52,13 +53,13 @@ describe('LoadLocalPurchase', () => {
     expect(purchases).toEqual([])
   })
 
-  test('should returns a list of purchases if cache is less than 3 days old', async () => {
+  test('should returns a list of purchases if cache is valid', async () => {
     const currentDate = new Date()
-    resultValue.timestamp.setDate(currentDate.getDate() - 3)
-    resultValue.timestamp.setSeconds(currentDate.getSeconds() + 1)
+    const cacheExpirationDate = getCacheExpirationDate(currentDate)
+    cacheExpirationDate.setSeconds(currentDate.getSeconds() + 1)
 
     fakeCacheRepository.resultValue = ({
-      timestamp: resultValue.timestamp,
+      timestamp: cacheExpirationDate,
       purchases: resultValue.purchases
     })
 
@@ -69,13 +70,13 @@ describe('LoadLocalPurchase', () => {
     expect(purchasesUseCase).toEqual(resultValue.purchases)
   })
 
-  test('should returns a list empty list if cache is more than 3 days old', async () => {
+  test('should returns a list empty list if cache is expirated', async () => {
     const currentDate = new Date()
-    resultValue.timestamp.setDate(currentDate.getDate() - 3)
-    resultValue.timestamp.setSeconds(currentDate.getSeconds() - 1)
+    const cacheExpirationDate = getCacheExpirationDate(currentDate)
+    cacheExpirationDate.setSeconds(currentDate.getSeconds() - 1)
 
     fakeCacheRepository.resultValue = ({
-      timestamp: resultValue.timestamp,
+      timestamp: cacheExpirationDate,
       purchases: resultValue.purchases
     })
 
@@ -87,12 +88,12 @@ describe('LoadLocalPurchase', () => {
     expect(purchasesUseCase).toEqual([])
   })
 
-  test('should returns a list empty list if cache is 3 days old', async () => {
+  test('should returns a list empty list if cache is at the same date of expiration cache date', async () => {
     const currentDate = new Date()
-    resultValue.timestamp.setDate(currentDate.getDate() - 3)
+    const cacheExpirationDate = getCacheExpirationDate(currentDate)
 
     fakeCacheRepository.resultValue = ({
-      timestamp: resultValue.timestamp,
+      timestamp: cacheExpirationDate,
       purchases: resultValue.purchases
     })
 
@@ -106,11 +107,11 @@ describe('LoadLocalPurchase', () => {
 
   test('should returns an list empty list if cache is empty', async () => {
     const currentDate = new Date()
-    resultValue.timestamp.setDate(currentDate.getDate() - 3)
-    resultValue.timestamp.setSeconds(currentDate.getSeconds() + 1)
+    const cacheExpirationDate = getCacheExpirationDate(currentDate)
+    cacheExpirationDate.setSeconds(currentDate.getSeconds() + 1)
 
     fakeCacheRepository.resultValue = ({
-      timestamp: resultValue.timestamp,
+      timestamp: cacheExpirationDate,
       purchases: []
     })
 

@@ -1,6 +1,6 @@
-import { Purchase } from '@/domain/entities'
 import { CacheRepositoryInterface } from '@/data/interfaces/cache'
 import { LoadPurchaseUseCaseInterface } from '@/domain/useCases'
+import { CachePolicy } from '@/data/helpers'
 
 export class LoadLocalPurchaseUseCase implements LoadPurchaseUseCaseInterface {
   constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
@@ -9,11 +9,8 @@ export class LoadLocalPurchaseUseCase implements LoadPurchaseUseCaseInterface {
     try {
       const { purchases, timestamp } = this.cacheRepository.load('purchaseKey')
       const currentDate = new Date()
-      const maxRange = new Date(timestamp)
 
-      maxRange.setDate(timestamp.getDate() + 3)
-
-      if(maxRange > currentDate) {
+      if(CachePolicy.validate(timestamp, currentDate)) {
         return purchases
       } else {
         throw new Error()
