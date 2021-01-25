@@ -82,6 +82,7 @@ describe('LoadLocalPurchase', () => {
     const purchasesUseCase = await loadLocalPurchaseUseCase.execute()
 
     expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
     expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load, CacheRepositoryInterface.Methods.delete])
     expect(purchasesUseCase).toEqual([])
   })
@@ -98,6 +99,7 @@ describe('LoadLocalPurchase', () => {
     const purchasesUseCase = await loadLocalPurchaseUseCase.execute()
 
     expect(spyLoadFromFakeCacheRepository).toBeCalledWith('purchaseKey')
+    expect(spyDeleteFromFakeCacheRepository).toBeCalledWith('purchaseKey')
     expect(fakeCacheRepository.methodCallOrder).toEqual([CacheRepositoryInterface.Methods.load, CacheRepositoryInterface.Methods.delete])
     expect(purchasesUseCase).toEqual([])
   })
