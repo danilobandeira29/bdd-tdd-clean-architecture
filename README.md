@@ -28,10 +28,10 @@ Application that represent and develop the concepts and good pratices that invol
 - Open your terminal to write theses lines:
 ```bash
   ## clone repository
-  $ git clone https://github.com/danilobandeira29/bdd-tdd-typescript.git
+  $ git clone https://github.com/danilobandeira29/bdd-tdd-clean-architecture.git
 
   ## access project directory
-  $ cd bdd-tdd-typescript
+  $ cd bdd-tdd-clean-architecture
 
   ## install all dependencies (or you can use 'yarn')
   $ npm install
@@ -69,10 +69,10 @@ Aplicação que busca representar e desenvolver os conceitos e boas práticas qu
 - Abra o seu terminal para escrever essas linhas:
 ```bash
   ## clonar repositório
-  $ git clone https://github.com/danilobandeira29/bdd-tdd-typescript.git
+  $ git clone https://github.com/danilobandeira29/bdd-tdd-clean-architecture.git
 
   ## acessar o diretório do projeto
-  $ cd bdd-tdd-typescript
+  $ cd bdd-tdd-clean-architecture
 
   ## instalar todas as dependências (ou você pode executar 'yarn')
   $ npm install
