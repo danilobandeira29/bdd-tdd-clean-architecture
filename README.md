@@ -1,164 +1,89 @@
-# BDD - Behavior Driven Development
+# Documentation/Documentação
+- [English](#-Summary)
+- [Português - Brasil](#-Sumário)
 
-- Converso com meu cliente(pessoa que vai utilizar meu sistema) e escuto dela qual a versão dela do sistema
-- Conversa com o cliente para entender o pontos de vista dele
-- Anotar as opiniões dele e depois passar para um documento, onde irá descrever a narrativa e cenário
-- Fazer uso da `narrativa` e depois escreve os `cenários` baseados em cada narrativa
+# Summary
+- [About](#-About)
+- [Challenges](#-Challenges)
+- [Techs](#-Techs)
+- [Clone the repository](#-Clone-the-repository)
+- [Tests](#-Tests)
 
-BDD é(given, when, then...):
-1. Dado que algo aconteceu(cláusulas)
-2. E quando acontecer alguma coisa
-3. Então...
+## 📝 About
+Application that represent and develop the concepts and good pratices that involve techniques such as: BDD, TDD, SOLID, Clean Architecture.
 
-Esse projeto independe de framework, então a ideia é aprender sobre boas práticas(clea architecture, tdd, bdd) para que seja uma aplicação escalável e de fácil manutenção, podendo também portar coisas para outras aplicações.
+## 🏆 Challenges
+- [x] Put in pratice what I have learned about BDD, TDD, SOLID, Clean Architecture.
 
-# TDD
-3 leis do TDD:
-1. Você não pode escrever nenhum código de produção sem ter escrito um teste que detecte uma possível falha
-2. Você não pode escrever mais testes de unidade do que o suficiente para detectar a falha
-3. Você não pode escrever mais código do que o suficiente para passar nos testes
+## 💻 Techs
+- NodeJS
+- Typescript
+- Test-Driven Development(TDD)
+- Behavior-Driven Development(BDD)
+- SOLID
+- Clean Architecture
+- Jest
 
-Resumindo:
-- Irei criar o teste e ele irá falhar
-- Depois irei começar a criar a funcionalidade
-- Refatorar o código
-
-## Configurando o projeto
-- Não devo começar instalando várias dependências ou criar um monte de páginas se eu não irei utilizar imediatamente, **YAGN - You ain't gonna need it**.
-- Iniciar o npm e instalar o typescript, logo em seguida utilizar o tsc --init para iniciar as configurações do typescript
+## 👇 Clone the repository
+- Open your terminal to write theses lines:
 ```bash
-npm install -D typescript @types/node
+  ## clone repository
+  $ git clone https://github.com/danilobandeira29/bdd-tdd-typescript.git
+
+  ## access project directory
+  $ cd bdd-tdd-typescript
+
+  ## install all dependencies (or you can use 'yarn')
+  $ npm install
+
 ```
-- Habilitar *baseUrl*, *rootDir* e *paths*
-- Sendo o *paths*
-```json
-"paths": {
-  "@/*": ["*"]
-}
-```
-- Instalar o jest
+## 🧪 Tests
+- Open your terminal to write theses lines:
 ```bash
-npm install -D jest @types/jest ts-jest
+  ## or you can use yarn test
+  $ npm test
 ```
-> ts-jest converte o código de typescript para javascript
-- Criar na raíz o `jest.config.js`
-```js
-module.exports = {
-  roots: ['<rootDir>/src'],
-  testEnvironment: 'node',
-  transform: {
-    '.*\\.ts$': 'ts-jest' // utilizar o ts-jest para converser o codigo typescript
-  },
-  moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1' //(.*) captura esse valor e colocar no $1
-  }
-}
-```
+# Sumário
+- [Sobre](#-Sobre)
+- [Desafios](#-Desafios)
+- [Tecnologias](#-Tecnologias)
+- [Clonar o Projeto](#-Clonar-o-Projeto)
+- [Testes](#-Testes)
 
-## Iniciando o projeto
-- Criar pasta src/domain/use-cases
-- Nessa pasta não irá implementação de nada, vai apenas **interfaces e modelos(entities)**
-- Criar a interface use case para salvar em cache
-- Criar o primeiro teste
-```typescript
-describe('Local save purchase', () => {
-  test('', () => {
-    expect(1).toBe(1)
-  })
-})
-```
-- Criar um script de test
-```json
-"scripts": {
-  "test": "jest --no-cache --watchAll"
-}
-```
+## 📝 Sobre
+Aplicação que busca representar e desenvolver os conceitos e boas práticas que envolvem técnicas como: BDD, TDD, SOLID, Clean Architecture.
 
-## Criando primeiro teste
-- Devo entender que nos requisitos existe comportamentos misturados: regras de negócio(deletar caches de 3 dias atras) e regras genéricas(delete, save, load)
-- Ou seja, com regras genéricas eu devo utilizar um helper ou repository para auxiliar o service para que ele ocorra da maneira correta. 
+## 🏆 Desafios
+- [x] Por em prática o que eu aprendi com meus estudos sobre BDD, TDD, SOLID, Clean Architecture.
 
-```typescript
-class LocalSavePurchase {
+## 💻 Tecnologias
+- NodeJS
+- Typescript
+- Test-Driven Development(TDD)
+- Behavior-Driven Development(BDD)
+- SOLID
+- Clean Architecture
+- Jest
 
-  constructor(private readonly cacheRepository: CacheRepositoryInterface) {}
+## 👇 Clonar o Projeto
+- Abra o seu terminal para escrever essas linhas:
+```bash
+  ## clonar repositório
+  $ git clone https://github.com/danilobandeira29/bdd-tdd-typescript.git
 
-  execute = async () => {
-    this.cacheRepository.delete('purchaseKey')
-  }
+  ## acessar o diretório do projeto
+  $ cd bdd-tdd-typescript
 
-}
-
-interface CacheRepositoryInterface {
-  delete: (key: string) => void
-}
-
-
-class FakeCacheRepository implements CacheRepositoryInterface {
-  deleteCallsCount = 0
-  key = ''
-
-  delete = (key: string): void => {
-    this.deleteCallsCount++
-    this.key = key
-  }
-
-}
-
-let fakeCacheRepository: FakeCacheRepository
-let localSavePurchase: LocalSavePurchase
-
-describe('LocalSavePurchase', () => {
-  beforeEach(() => {
-    fakeCacheRepository = new FakeCacheRepository()
-    localSavePurchase = new LocalSavePurchase(fakeCacheRepository)
-    
-  })
-
-  test('should not delete cache on init', () => {
-    expect(fakeCacheRepository.deleteCallsCount).toBe(0)
-  })
-
-  test('should delete old cache when a new cache is saved', async () => {
-    await localSavePurchase.execute()
-    
-    expect(fakeCacheRepository.deleteCallsCount).toBe(1)
-  })
-
-  test('should call delete with correct key', async () => {
-    await localSavePurchase.execute()
-    
-    expect(fakeCacheRepository.key).toBe('purchaseKey')
-  })
-  // posso reduzir os dois testes acima para apenas um
-  // se executar uma função assíncrona sem o await ele retorna uma promise
-})
-
+  ## instalar todas as dependências (ou você pode executar 'yarn')
+  $ npm install
 ```
 
-- Com o teste `should call delete with correct key` eu posso retirar o teste `should delete old cache when a new cache is saved`? **NÃO!!**, pois eu posso ter em produção a chamada do método delete acontecendo 2 vezes, ou seja, não é um comportamento correto, por isso a contagem da quantidade de vezes que o método delete foi chamado é importante
-
-## Services e Testes
-- O `LocalSavePurchase` é apenas um service fake que implementa a use-case do Domain `SavePurchase`
-- **Não** posso tipar o *value* recebido no `CacheRepositoryInterface`, pois ele é um componente genérico e não deve servir a apenas um use case/service, já que ele pode ser utilizado em mais de um
-- Caso eu não espere uma função assíncrona executar, ela irá me retornar uma `Promise`, mesmo sendo `void`. Então eu consigo observar se ela irá ser chamada pelo *resolve* ou *reject*.
-
-```js
-async function testFunction() {
-  return 'Hello, world'
-}
-
-const result = await testFunction() // retorna 'Hello, world'
-const promise = testFunction() // Promise {<fulfilled>: "Hello, world!"}
+## 🧪 Testes
+- Abra o seu terminal para escrever essas linhas:
+```bash
+  ## ou você pode executar yarn test
+  $ npm test
 ```
-- Utilizei o `namespace` para criar uma variável/estrutura interna em uma interface(similar a criação de um atributo abstrato em Java) para criar um array enum que irá observar a ordem das contagens dos métodos delete e save, para saber se o delete é chamado antes do save.
-- Posso abstrair e criar um novo método no `CacheRepositoryInterface` que será o replace, que nada mais é do que a chamada dos métodos `delete` e `save`.
-- Evitar utilizar currying, pois achei bastante confuso quando utilizado em projetos grandes
 
-### Helpers
-- Foi criado uma class CachePolicy, onde não será possível instancia-la mas apenas utilizar o método validate, que servirá pra validar o cache de acordo com duas datas passadas(timestamp e a data atual).
-- Também foi criado outro helper para os testes, que irá retornar uma data.
-
-Mas por que não utilizar o CachePolicy e o getCacheExpirationDate tanto em teste como em produção?
-
-Se eu alterar a politica de Cache, eu devo alterar primeiro no teste e depois alterar no de produção. Eles devem ser separados
+**Developed by/Desenvolvido por**👻
+<a href="https://www.linkedin.com/in/danilo-bandeira-4411851a4/">**Danilo Bandeira</a>**
