@@ -26,6 +26,12 @@
 2. E quando acontecer alguma coisa
 3. Então...
 
+## Problemas que o BDD resolve
+1. As pessoas enxergam claramente o que será construído
+2. O time de desenvolvimento entendem realmente as necessidades do negócio que devem ser atendidas
+3. As pessoas do negócio entendem os desafios técnicos na implementação dos requisitos levantados
+4. Gera uma documentação que fica sempre atualizada(evita o: tem que descobrir como isso funciona? vai pro código e vê)
+
 # BDD & TDD
 Descrevemos o comportamento do sistema com *cenários* e *critérios de aceite*, mas quando vamos implementar seus detalhes e testar o como ele implementa essa funcionalidade, usamos o **TDD**.
 
