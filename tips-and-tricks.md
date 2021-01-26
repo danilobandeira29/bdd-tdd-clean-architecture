@@ -15,10 +15,19 @@
 2. Entregar valor para as partes interessadas(escrever os cenários a partir da perspectiva do usuário e não do testador ou analista de negócios)
 3. Tudo é comportamento
 
+**BDD é foco no negócio**
+
+**TDD é foco no código**
+
+**Software é a materialização do conhecimento que os desenvolvedores sobre o negócio**
+
 **BDD é(given, when, then...):**
 1. Dado que algo aconteceu(cláusulas)
 2. E quando acontecer alguma coisa
 3. Então...
+
+# BDD & TDD
+Descrevemos o comportamento do sistema com *cenários* e *critérios de aceite*, mas quando vamos implementar seus detalhes e testar o como ele implementa essa funcionalidade, usamos o **TDD**.
 
 Esse projeto independe de framework, então a ideia é aprender sobre boas práticas(clea architecture, tdd, bdd) para que seja uma aplicação escalável e de fácil manutenção, podendo também portar coisas para outras aplicações.
 
