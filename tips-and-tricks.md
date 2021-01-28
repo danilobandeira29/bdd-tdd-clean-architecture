@@ -32,6 +32,12 @@
 3. As pessoas do negócio entendem os desafios técnicos na implementação dos requisitos levantados
 4. Gera uma documentação que fica sempre atualizada(evita o: tem que descobrir como isso funciona? vai pro código e vê)
 
+## Elementos chaves do BDD
+Meta de negócio(força que direciona o projeto): 
+- Não é chegar e perguntar para o cliente o que ele quer, pois ele raramente sabe o que quer
+- O cliente tem dores, ele sabe o que incomoda ele
+- Muitas funcionalidades NÃO é sinônimo de alto valor entregue
+
 # BDD & TDD
 Descrevemos o comportamento do sistema com *cenários* e *critérios de aceite*, mas quando vamos implementar seus detalhes e testar o como ele implementa essa funcionalidade, usamos o **TDD**.
 
