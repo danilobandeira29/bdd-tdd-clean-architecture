@@ -38,6 +38,9 @@ Meta de negócio(força que direciona o projeto):
 - O cliente tem dores, ele sabe o que incomoda ele
 - Muitas funcionalidades NÃO é sinônimo de alto valor entregue
 
+Mapas de Impacto:
+- Para explorar hipóteses utilizamos *mapas de impacto* que nos ajudam a visualmente identificar o **porquê**, **quem**, **como** e **quais problemas** estamos enfrentando.
+
 # BDD & TDD
 Descrevemos o comportamento do sistema com *cenários* e *critérios de aceite*, mas quando vamos implementar seus detalhes e testar o como ele implementa essa funcionalidade, usamos o **TDD**.
 
