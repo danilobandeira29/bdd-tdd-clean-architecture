@@ -12,6 +12,9 @@
 <p align="center">
   <img src="https://ik.imagekit.io/xfddek6eqk/user_story_sChKwRSFP.png" alt="funcionalidades"/>
 </p>
+<p align="center">
+  <img src="https://ik.imagekit.io/xfddek6eqk/acceptance_342_Q2lzzW.png" alt="funcionalidades"/>
+</p>
 
 
 ### 3 Princípios do BDD
