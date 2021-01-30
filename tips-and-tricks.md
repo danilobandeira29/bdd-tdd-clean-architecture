@@ -9,6 +9,10 @@
 - Converso com meu cliente(pessoa que vai utilizar meu sistema) e escuto dela qual a versão dela do sistema, para entender o pontos de vista dele.
 - Anotar as opiniões dele e depois passar para um documento, onde irá descrever as narrativas e cenários.
 - Fazer uso da `narrativa` e depois escreve os `cenários` baseados em cada narrativa.
+<p align="center">
+  <img src="https://ik.imagekit.io/xfddek6eqk/user_story_sChKwRSFP.png" alt="funcionalidades"/>
+</p>
+
 
 ### 3 Princípios do BDD
 1. O suficiente é o suficiente(só é criado e automatizado o que gerar valor para o usuário)
