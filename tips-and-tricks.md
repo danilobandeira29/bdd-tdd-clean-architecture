@@ -37,6 +37,9 @@ Meta de negócio(força que direciona o projeto):
 - Não é chegar e perguntar para o cliente o que ele quer, pois ele raramente sabe o que quer
 - O cliente tem dores, ele sabe o que incomoda ele
 - Muitas funcionalidades NÃO é sinônimo de alto valor entregue
+<p align="center">
+  <img src="https://ik.imagekit.io/xfddek6eqk/funcionalidades_J5tNXsNN5.png" alt="funcionalidades"/>
+</p>
 
 Mapas de Impacto:
 - Para explorar hipóteses utilizamos *mapas de impacto* que nos ajudam a visualmente identificar o **porquê**, **quem**, **como** e **quais problemas** estamos enfrentando.
